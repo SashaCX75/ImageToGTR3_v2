@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageToZeppOS", "ImageToGTR3_v2\ImageToZeppOS.csproj", "{3AD5D166-8685-4919-BFAC-2DCFF10E0A7B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3AD5D166-8685-4919-BFAC-2DCFF10E0A7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AD5D166-8685-4919-BFAC-2DCFF10E0A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AD5D166-8685-4919-BFAC-2DCFF10E0A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AD5D166-8685-4919-BFAC-2DCFF10E0A7B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3F4F7118-A629-4E2D-BF2D-8F993AC1B7D3}
+	EndGlobalSection
+EndGlobal
