@@ -145,6 +145,12 @@
   <data name="checkBox_newAlgorithm.ToolTip" xml:space="preserve">
     <value>Включить при небольшом количестве цветов и полупрозрачности</value>
   </data>
+  <data name="radioButton_type3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 17</value>
+  </data>
+  <data name="radioButton_type3.Text" xml:space="preserve">
+    <value>Тип 3</value>
+  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>307, 148</value>
   </data>

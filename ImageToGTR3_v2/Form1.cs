@@ -42,7 +42,9 @@ namespace ImageToZeppOS
                 progressBar1.Value = 0;
                 progressBar1.Maximum = FileNames.Count;
                 string path = "";
-                bool fix_color = radioButton_type1.Checked;
+                int fix_color = 1;
+                if (radioButton_type2.Checked) fix_color = 2;
+                if (radioButton_type3.Checked) fix_color = 3;
                 progressBar1.Visible = true;
                 foreach (String file in FileNames)
                 {
@@ -57,7 +59,7 @@ namespace ImageToZeppOS
             }
         }
 
-        private string ImageAutoDetectReadFormat(string fileNameFull, bool fix_color)
+        private string ImageAutoDetectReadFormat(string fileNameFull, int fix_color)
         {
             string path = "";
             if (File.Exists(fileNameFull))
@@ -90,7 +92,7 @@ namespace ImageToZeppOS
         }
 
         /// <summary>Преобразуем ARGB Tga в Png</summary>
-        private string TgaARGBToPng(string file, string targetFile, bool fix_color)
+        private string TgaARGBToPng(string file, string targetFile, int fix_color)
         {
             string path = "";
             if (File.Exists(file))
@@ -130,7 +132,7 @@ namespace ImageToZeppOS
                     ImageMagick.IMagickImage Blue = image.Separate(ImageMagick.Channels.Blue).First();
                     ImageMagick.IMagickImage Red = image.Separate(ImageMagick.Channels.Red).First();
                     ImageMagick.IMagickImage Alpha = image.Separate(ImageMagick.Channels.Red).First();
-                    if (fix_color)
+                    if (fix_color == 1)
                     {
                         image.Composite(Red, ImageMagick.CompositeOperator.Replace, ImageMagick.Channels.Blue);
                         image.Composite(Blue, ImageMagick.CompositeOperator.Replace, ImageMagick.Channels.Red);
@@ -152,7 +154,7 @@ namespace ImageToZeppOS
         }
 
         /// <summary>Преобразуем Tga в Png</summary>
-        private string TgaToPng(string file, string targetFile, bool fix_color)
+        private string TgaToPng(string file, string targetFile, int fix_color)
         {
             string path = "";
             if (File.Exists(file))
@@ -194,17 +196,72 @@ namespace ImageToZeppOS
                     ImageMagick.IMagickImage Blue = image.Separate(ImageMagick.Channels.Blue).First();
                     ImageMagick.IMagickImage Red = image.Separate(ImageMagick.Channels.Red).First();
                     ImageMagick.IMagickImage Alpha = image.Separate(ImageMagick.Channels.Red).First();
-                    if (fix_color)
+                    if (fix_color == 1)
                     {
                         image.Composite(Red, ImageMagick.CompositeOperator.Replace, ImageMagick.Channels.Blue);
                         image.Composite(Blue, ImageMagick.CompositeOperator.Replace, ImageMagick.Channels.Red);
+                        if (!colored)
+                        {
+                            image.Composite(Alpha, ImageMagick.CompositeOperator.CopyAlpha, ImageMagick.Channels.Alpha);
+                        }
+                        image.Write(targetFile, MagickFormat.Png);
                     }
-                    if (!colored)
+                    if (fix_color == 2)
                     {
-                        image.Composite(Alpha, ImageMagick.CompositeOperator.CopyAlpha, ImageMagick.Channels.Alpha);
+                        if (!colored)
+                        {
+                            image.Composite(Alpha, ImageMagick.CompositeOperator.CopyAlpha, ImageMagick.Channels.Alpha);
+                        }
+                        image.Write(targetFile, MagickFormat.Png);
                     }
+                    if (fix_color == 3)
+                    {
+                        if (image.ColormapSize == 256)
+                        {
+                            MagickColor[,] colorMap = new MagickColor[16, 16];
+                            int index = 0;
+                            for (int x = 0; x < 16; x++)
+                            {
+                                for (int y = 0; y < 16; y++)
+                                {
+                                    colorMap[x, y] = image.GetColormap(index);
+                                    index++;
+                                }
+                            }
+                            index = 0;
+                            for (int x = 0; x < 16; x++)
+                            {
+                                for (int y = 0; y < 16; y++)
+                                {
+                                    image.SetColormap(index, colorMap[y, x]);
+                                    index++;
+                                }
+                            }
+                            index = 0;
+                            for (int x = 0; x < 16; x++)
+                            {
+                                for (int y = 0; y < 16; y++)
+                                {
+                                    colorMap[x, y] = image.GetColormap(index);
+                                    index++;
+                                }
+                            }
+                        }
+                        if (!colored)
+                        {
+                            image.Composite(Alpha, ImageMagick.CompositeOperator.CopyAlpha, ImageMagick.Channels.Alpha);
+                        }
 
-                    image.Write(targetFile);
+                        image.Format = MagickFormat.Png32;
+                        image.Write(targetFile + "_temp", MagickFormat.Png);
+
+                        using (var fileStream = File.OpenRead(targetFile + "_temp"))
+                        {
+                            image = new ImageMagick.MagickImage(fileStream, ImageMagick.MagickFormat.Png32);
+                            image.Write(targetFile, ImageMagick.MagickFormat.Png32);
+                        }
+                        File.Delete(targetFile + "_temp");
+                    }
                 }
                 catch (Exception exp)
                 {
@@ -234,7 +291,9 @@ namespace ImageToZeppOS
                 progressBar1.Maximum = FileNames.Count;
                 progressBar1.Visible = true;
                 string fileNameFull = "";
-                bool fix_color = radioButton_type1.Checked;
+                int fix_color = 1;
+                if (radioButton_type2.Checked) fix_color = 2;
+                if (radioButton_type3.Checked) fix_color = 3;
                 bool fix_size = radioButton_type1.Checked;
                 foreach (String file in FileNames)
                 {
@@ -251,7 +310,7 @@ namespace ImageToZeppOS
             }
         }
 
-        private string ImageAutoDetectBestFormat(string fileNameFull, bool fix_size, bool fix_color)
+        private string ImageAutoDetectBestFormat(string fileNameFull, bool fix_size, int fix_color)
         {
             if (!File.Exists(fileNameFull)) return null;
             try
@@ -318,7 +377,7 @@ namespace ImageToZeppOS
             return null;
         }
 
-        private string PngToTgaARGB(string fileNameFull, string targetFolder, ImageMagick.MagickImage image, bool fix_color)
+        private string PngToTgaARGB(string fileNameFull, string targetFolder, ImageMagick.MagickImage image, int fix_color)
         {
             try
             {
@@ -338,7 +397,7 @@ namespace ImageToZeppOS
                     return null;
                 }
                
-                if (fix_color)
+                if (fix_color == 1)
                 {
                     IPixelCollection pixels = image.GetPixels();
                     for (int w = 0; w < image.Width; w++)
@@ -351,34 +410,14 @@ namespace ImageToZeppOS
                             ushort alpha = pixels[w, h].GetChannel(3);
                             float scale = (float)alpha / ushort.MaxValue;
 
-                            //List<int> list = new List<int>() { red, green, blue };
-                            //int minValue = list.Min();
-                            //if (minValue > alpha)
-                            //{
-                            //    float scale = (float)alpha / minValue;
-
                             red = (ushort)(red * scale);
                             green = (ushort)(green * scale);
                             blue = (ushort)(blue * scale);
-                            //} 
 
                             pixels[w, h].SetChannel(0, red);
                             pixels[w, h].SetChannel(1, green);
                             pixels[w, h].SetChannel(2, blue);
                             pixels[w, h].SetChannel(3, alpha);
-
-                            /*ushort red = (ushort)(pixels[w, h].GetChannel(0) / 256);
-                            ushort green = (ushort)(pixels[w, h].GetChannel(1) / 256);
-                            ushort blue = (ushort)(pixels[w, h].GetChannel(2) / 256);
-                            ushort alpha = (ushort)(pixels[w, h].GetChannel(3) / 256);
-
-                            int rgba = (alpha | (red << 8) | (green << 16) | (blue << 24));
-                            byte[] intBytes = BitConverter.GetBytes(rgba);
-
-                            pixels[w, h].SetChannel(0, (ushort)(intBytes[1] * 256));
-                            pixels[w, h].SetChannel(1, (ushort)(intBytes[2] * 256));
-                            pixels[w, h].SetChannel(2, (ushort)(intBytes[3] * 256));
-                            pixels[w, h].SetChannel(3, (ushort)(intBytes[0] * 256));*/
                         }
                     }
                 }
@@ -477,7 +516,7 @@ namespace ImageToZeppOS
             }
         }
 
-        private string PngToTga(string fileNameFull, string targetFolder, ImageMagick.MagickImage image, bool fix_color)
+        private string PngToTga(string fileNameFull, string targetFolder, ImageMagick.MagickImage image, int fix_color)
         {
             if (File.Exists(fileNameFull))
             {
@@ -530,6 +569,10 @@ namespace ImageToZeppOS
                     {
                         colorMapList.Add(image.GetColormap(i));
                     }
+                    while (fix_color == 3 && colorMapList.Count < 256)
+                    {
+                        colorMapList.Add(Color.FromArgb(0, 0, 0, 0));
+                    }
                     if (transparent && colorMapList.Count == 2)
                     {
                         colorMapList[0] = Color.FromArgb(0, colorMapList[0].R, colorMapList[0].G, colorMapList[0].B);
@@ -553,7 +596,7 @@ namespace ImageToZeppOS
             return null;
         }
 
-        private void ImageFix(string fileNameFull, bool fix_color)
+        private void ImageFix(string fileNameFull, int fix_color)
         {
             if (File.Exists(fileNameFull))
             {
