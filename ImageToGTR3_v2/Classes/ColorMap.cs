@@ -70,7 +70,7 @@ namespace ImageToZeppOS
                     R = (byte)(R * scale);
                     G = (byte)(G * scale);
                     B = (byte)(B * scale);
-                    if (fix_color == 1) Colors[i] = Color.FromArgb(B, G, R, A);
+                    if (fix_color == 2) Colors[i] = Color.FromArgb(B, G, R, A);
                     else Colors[i] = Color.FromArgb(R, G, B, A);
                 }
             }

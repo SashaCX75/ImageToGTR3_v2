@@ -129,14 +129,14 @@ namespace ImageToZeppOS
                         image = (ImageMagick.MagickImage)image.Clone(RealWidth, height);
                     }
 
-                    ImageMagick.IMagickImage Blue = image.Separate(ImageMagick.Channels.Blue).First();
-                    ImageMagick.IMagickImage Red = image.Separate(ImageMagick.Channels.Red).First();
-                    ImageMagick.IMagickImage Alpha = image.Separate(ImageMagick.Channels.Red).First();
-                    if (fix_color == 1)
-                    {
-                        image.Composite(Red, ImageMagick.CompositeOperator.Replace, ImageMagick.Channels.Blue);
-                        image.Composite(Blue, ImageMagick.CompositeOperator.Replace, ImageMagick.Channels.Red);
-                    }
+                    //ImageMagick.IMagickImage Blue = image.Separate(ImageMagick.Channels.Blue).First();
+                    //ImageMagick.IMagickImage Red = image.Separate(ImageMagick.Channels.Red).First();
+                    //ImageMagick.IMagickImage Alpha = image.Separate(ImageMagick.Channels.Red).First();
+                    //if (fix_color == 1)
+                    //{
+                    //    image.Composite(Red, ImageMagick.CompositeOperator.Replace, ImageMagick.Channels.Blue);
+                    //    image.Composite(Blue, ImageMagick.CompositeOperator.Replace, ImageMagick.Channels.Red);
+                    //}
                     image.Write(targetFile);
                 }
                 catch (Exception exp)
@@ -355,7 +355,7 @@ namespace ImageToZeppOS
                 string targetFolder = Path.Combine(path, "Fix");
                 if (!Directory.Exists(targetFolder)) Directory.CreateDirectory(targetFolder);
 
-                if (image.TotalColors >= numericUpDown_colorCount.Value || checkBox_newAlgorithm.Checked)
+                if ((image.TotalColors >= numericUpDown_colorCount.Value || checkBox_newAlgorithm.Checked) && !checkBox_oldAlgorithm.Checked)
                     //if (image.TotalColors > 255 || checkBox_newAlgorithm.Checked /*&& image.ChannelCount == 4*/) 
                 {
                     fileNameFull = PngToTgaARGB(fileNameFull, targetFolder, image, fix_color);
@@ -687,6 +687,14 @@ namespace ImageToZeppOS
                         Properties.FormStrings.Message_Warning_Caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
+        }
+
+        private void checkBox_Algorithm_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_newAlgorithm.Checked || checkBox_oldAlgorithm.Checked) numericUpDown_colorCount.Enabled = false;
+            else numericUpDown_colorCount.Enabled = true;
+            checkBox_newAlgorithm.Enabled = !checkBox_oldAlgorithm.Checked;
+            checkBox_oldAlgorithm.Enabled = !checkBox_newAlgorithm.Checked;
         }
     }
 }
