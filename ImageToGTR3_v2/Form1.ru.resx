@@ -117,11 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="progressBar1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="button_PngToTga.Text" xml:space="preserve">
     <value>Конвертировать изображение в формат Zepp OS</value>
   </data>
+  <data name="button_PngToTga.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="button_TgaToPng.Text" xml:space="preserve">
     <value>Распознать изображение из циферблата</value>
+  </data>
+  <data name="button_TgaToPng.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label_version.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="radioButton_type2.Size" type="System.Drawing.Size, System.Drawing">
@@ -157,8 +169,20 @@
   <data name="checkBox_oldAlgorithm.Text" xml:space="preserve">
     <value>Принудительно использовать старый алгоритм</value>
   </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>307, 168</value>
+  <data name="numericUpDown_colorCount.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="button_Batch_TgaToPng.Text" xml:space="preserve">
+    <value>Пакетное конвекртирование изображений в PNG</value>
+  </data>
+  <data name="button_Batch_TgaToPng.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="button_Batch_PngToTga.Text" xml:space="preserve">
+    <value>Пакетное конвекртирование в формат Zepp OS</value>
+  </data>
+  <data name="button_Batch_PngToTga.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -3642,5 +3666,8 @@
         AAAAAAAAAAAAAAD//wAAgf8AAIAHAACAAQAAgAEAAIABAACAAQAAAAEAAAABAAAAAAAAAAAAAAAAAAAA
         AQAAAAMAAOAHAAD//wAA
 </value>
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
   </data>
 </root>

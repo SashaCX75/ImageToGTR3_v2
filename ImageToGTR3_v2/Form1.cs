@@ -1,16 +1,19 @@
 ﻿using ImageMagick;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ZeppOS_Converter_VB_;
 
 namespace ImageToZeppOS
 {
@@ -59,33 +62,73 @@ namespace ImageToZeppOS
             }
         }
 
-        private string ImageAutoDetectReadFormat(string fileNameFull, int fix_color)
+        private string ImageAutoDetectReadFormat(string fileNameFull, int fix_color, bool newFolder = true)
         {
             string path = "";
             if (File.Exists(fileNameFull))
             {
-                try
+                if (newFolder)
                 {
-                    string fileName = Path.GetFileNameWithoutExtension(fileNameFull);
-                    //path = Path.GetDirectoryName(fileNameFull);
-                    string targetFolder = Path.Combine(Path.GetDirectoryName(fileNameFull), "Png");
-                    if (!Directory.Exists(targetFolder)) Directory.CreateDirectory(targetFolder);
-                    string targetFileName = Path.Combine(targetFolder, fileName + ".png");
-                    //path = Path.GetDirectoryName(fileNameFull);
-                    using (var fileStream = File.OpenRead(fileNameFull))
+                    try
                     {
-                        _streamBuffer = new byte[fileStream.Length];
-                        fileStream.Read(_streamBuffer, 0, (int)fileStream.Length);
+                        string fileName = Path.GetFileNameWithoutExtension(fileNameFull);
+                        string targetFolder = Path.Combine(Path.GetDirectoryName(fileNameFull), "Png");
+                        if (!Directory.Exists(targetFolder)) Directory.CreateDirectory(targetFolder);
+                        string targetFileName = Path.Combine(targetFolder, fileName + ".png");
+                        using (var fileStream = File.OpenRead(fileNameFull))
+                        {
+                            _streamBuffer = new byte[fileStream.Length];
+                            fileStream.Read(_streamBuffer, 0, (int)fileStream.Length);
 
-                        Header header = new Header(_streamBuffer);
-                        if (header.GetExistsColorMap() == 1 && header.GetImageType() == 1) path = TgaToPng(fileNameFull, targetFileName, fix_color);
-                        if (header.GetExistsColorMap() == 0 && header.GetImageType() == 2) path = TgaARGBToPng(fileNameFull, targetFileName, fix_color);
+                            Header header = new Header(_streamBuffer, fileNameFull, targetFileName);
+                            if (header.GetExistsColorMap() == 1 && header.GetImageType() == 1) path = TgaToPng(fileNameFull, targetFileName, fix_color);
+                            if (header.GetExistsColorMap() == 0 && header.GetImageType() == 2) {
+                                if (header.GetBitsPerPixel() != 32 && fix_color == 1)
+                                {
+                                    ZeppOSConverter_VB myLibrary = new ZeppOSConverter_VB();
+                                    bool result = myLibrary.MyMethod(fileNameFull, targetFileName);
+                                    if (result) path = Path.GetDirectoryName(targetFileName);
+                                }
+                                else
+                                {
+                                    path = TgaARGBToPng(fileNameFull, targetFileName, fix_color); 
+                                }
+                            }
+                            if (header.GetExistsColorMap() == 1 && header.GetImageType() == 9) path = TgaToPng(fileNameFull, targetFileName, fix_color);
+                        }
                     }
+                    catch (Exception exp)
+                    {
+                        MessageBox.Show("Не верный формат исходного файла" + Environment.NewLine +
+                            exp);
+                    } 
                 }
-                catch (Exception exp)
+                else
                 {
-                    MessageBox.Show("Не верный формат исходного файла" + Environment.NewLine +
-                        exp);
+                    try
+                    {
+                        string fileName = Path.GetFileNameWithoutExtension(fileNameFull);
+                        using (var fileStream = File.OpenRead(fileNameFull))
+                        {
+                            _streamBuffer = new byte[fileStream.Length];
+                            fileStream.Read(_streamBuffer, 0, (int)fileStream.Length);
+
+                            Header header = new Header(_streamBuffer, Path.GetFileName(fileNameFull));
+                            if (header.GetExistsColorMap() == 1 && header.GetImageType() == 1) path = TgaToPng(fileNameFull, fileNameFull + "_temp", fix_color);
+                            if (header.GetExistsColorMap() == 0 && header.GetImageType() == 2) path = TgaARGBToPng(fileNameFull, fileNameFull + "_temp", fix_color);
+                            if (header.GetExistsColorMap() == 1 && header.GetImageType() == 9) path = TgaToPng(fileNameFull, fileNameFull + "_temp", fix_color);
+                        }
+                        if (File.Exists(fileNameFull + "_temp"))
+                        {
+                            if (File.Exists(fileNameFull)) File.Delete(fileNameFull);
+                            File.Move(fileNameFull + "_temp", fileNameFull);
+                        }
+                    }
+                    catch (Exception exp)
+                    {
+                        MessageBox.Show("Не верный формат исходного файла" + Environment.NewLine +
+                            exp);
+                    }
                 }
             }
             return path;
@@ -310,7 +353,7 @@ namespace ImageToZeppOS
             }
         }
 
-        private string ImageAutoDetectBestFormat(string fileNameFull, bool fix_size, int fix_color)
+        private string ImageAutoDetectBestFormat(string fileNameFull, bool fix_size, int fix_color, bool newFolder = true)
         {
             if (!File.Exists(fileNameFull)) return null;
             try
@@ -318,17 +361,11 @@ namespace ImageToZeppOS
                 string fileName = Path.GetFileNameWithoutExtension(fileNameFull);
                 string path = Path.GetDirectoryName(fileNameFull);
                 ImageMagick.MagickImage image;
-                //ImageMagick.MagickImage image_temp;
 
                 using (var fileStream = File.OpenRead(fileNameFull))
                 {
                     image = new ImageMagick.MagickImage(fileStream);
                 }
-                //using (var fileStream = File.OpenRead(fileNameFull))
-                //{
-                //    image = new ImageMagick.MagickImage(fileStream);
-                //    image_temp = new ImageMagick.MagickImage(image);
-                //}
                 ImageWidth = image.Width;
                 int imageWidth = ImageWidth;
                 int newWidth = ImageWidth;
@@ -348,15 +385,14 @@ namespace ImageToZeppOS
                         Graphics gfx = Graphics.FromImage(bitmapNew);
                         gfx.DrawImage(bitmap, 0, 0, bitmap.Width, bitmap.Height);
                         image = new ImageMagick.MagickImage(bitmapNew);
-                        //image_temp = new ImageMagick.MagickImage(bitmapNew);
                     }
                 }
 
                 string targetFolder = Path.Combine(path, "Fix");
+                if (!newFolder) targetFolder = path;
                 if (!Directory.Exists(targetFolder)) Directory.CreateDirectory(targetFolder);
 
                 if ((image.TotalColors >= numericUpDown_colorCount.Value || checkBox_newAlgorithm.Checked) && !checkBox_oldAlgorithm.Checked)
-                    //if (image.TotalColors > 255 || checkBox_newAlgorithm.Checked /*&& image.ChannelCount == 4*/) 
                 {
                     fileNameFull = PngToTgaARGB(fileNameFull, targetFolder, image, fix_color);
                     ImageFix_ARGB(fileNameFull, imageWidth);
@@ -695,6 +731,119 @@ namespace ImageToZeppOS
             else numericUpDown_colorCount.Enabled = true;
             checkBox_newAlgorithm.Enabled = !checkBox_oldAlgorithm.Checked;
             checkBox_oldAlgorithm.Enabled = !checkBox_newAlgorithm.Checked;
+        }
+
+        private void button_Batch_TgaToPng_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;
+
+            dialog.RestoreDirectory = true;
+            dialog.EnsureValidNames = false;
+            //dialog.Title = "Выбрать папку с !ut файлами";
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string dirName = dialog.FileName;
+
+                List<string> allTempsFiles = GetRecursFiles(dirName, "*.png", 5, dirName);
+                progressBar1.Value = 0;
+                progressBar1.Maximum = allTempsFiles.Count;
+                progressBar1.Visible = true;
+
+                string path = "";
+                int fix_color = 1;
+                if (radioButton_type2.Checked) fix_color = 2;
+                if (radioButton_type3.Checked) fix_color = 3;
+
+                foreach (string file in allTempsFiles)
+                {
+                    progressBar1.Value++;
+                    string fullFileName = dirName + file;
+                    if (File.Exists(fullFileName))
+                    {
+                        path = ImageAutoDetectReadFormat(fullFileName, fix_color, false);
+                    }
+                }
+
+                progressBar1.Visible = false;
+                if (path.Length > 5 && Directory.Exists(dirName))
+                {
+                    Process.Start(new ProcessStartInfo("explorer.exe", dirName));
+                }
+            }
+        }
+
+        private void button_Batch_PngToTga_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;
+
+            dialog.RestoreDirectory = true;
+            dialog.EnsureValidNames = false;
+            //dialog.Title = "Выбрать папку с !ut файлами";
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string dirName = dialog.FileName;
+
+                List<string> allTempsFiles = GetRecursFiles(dirName, "*.png", 5, dirName);
+                progressBar1.Value = 0;
+                progressBar1.Maximum = allTempsFiles.Count;
+                progressBar1.Visible = true;
+
+                string path = "";
+                int fix_color = 1;
+                if (radioButton_type2.Checked) fix_color = 2;
+                if (radioButton_type3.Checked) fix_color = 3;
+                bool fix_size = radioButton_type1.Checked;
+
+                foreach (string file in allTempsFiles)
+                {
+                    progressBar1.Value++;
+                    string fullFileName = dirName + file;
+                    if (File.Exists(fullFileName))
+                    {
+                        path = ImageAutoDetectBestFormat(fullFileName, fix_size, fix_color, false);
+                    }
+                }
+
+                progressBar1.Visible = false;
+                if (path != null && path.Length > 5 && Directory.Exists(dirName))
+                {
+                    Process.Start(new ProcessStartInfo("explorer.exe", dirName));
+                }
+            }
+        }
+
+        /// <summary>Получаем список файлов в папке</summary>
+        /// <param name="start_path">Начальная папка для просмотра</param>
+        /// <param name="mask">Маска для поиска файлов</param>
+        /// <param name="depth">Глубина просмотра подкаталогов</param>
+        /// <param name="relative_path">Начальная папка? относительно которой будут возвращатся пути файлов</param>
+        private List<string> GetRecursFiles(string start_path, string mask, int depth, string relative_path)
+        {
+            List<string> listFiles = new List<string>();
+            if (depth < 0) return listFiles;
+            depth--;
+            try
+            {
+                string[] folders = Directory.GetDirectories(start_path);
+                foreach (string folder in folders)
+                {
+                    //ls.Add("Папка: " + folder);
+                    listFiles.AddRange(GetRecursFiles(folder, mask, depth, relative_path));
+                }
+                string[] files = Directory.GetFiles(start_path, mask);
+                foreach (string fileName in files)
+                {
+                    if (relative_path.Length > 3) listFiles.Add(fileName.Replace(relative_path, ""));
+                    else listFiles.Add(fileName);
+                }
+            }
+            catch (System.Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            return listFiles;
         }
     }
 }

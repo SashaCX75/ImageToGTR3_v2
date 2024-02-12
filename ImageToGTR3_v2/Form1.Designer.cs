@@ -41,6 +41,8 @@
             this.radioButton_type3 = new System.Windows.Forms.RadioButton();
             this.checkBox_oldAlgorithm = new System.Windows.Forms.CheckBox();
             this.numericUpDown_colorCount = new System.Windows.Forms.NumericUpDown();
+            this.button_Batch_TgaToPng = new System.Windows.Forms.Button();
+            this.button_Batch_PngToTga = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_colorCount)).BeginInit();
             this.SuspendLayout();
             // 
@@ -128,10 +130,26 @@
             0,
             0});
             // 
+            // button_Batch_TgaToPng
+            // 
+            resources.ApplyResources(this.button_Batch_TgaToPng, "button_Batch_TgaToPng");
+            this.button_Batch_TgaToPng.Name = "button_Batch_TgaToPng";
+            this.button_Batch_TgaToPng.UseVisualStyleBackColor = true;
+            this.button_Batch_TgaToPng.Click += new System.EventHandler(this.button_Batch_TgaToPng_Click);
+            // 
+            // button_Batch_PngToTga
+            // 
+            resources.ApplyResources(this.button_Batch_PngToTga, "button_Batch_PngToTga");
+            this.button_Batch_PngToTga.Name = "button_Batch_PngToTga";
+            this.button_Batch_PngToTga.UseVisualStyleBackColor = true;
+            this.button_Batch_PngToTga.Click += new System.EventHandler(this.button_Batch_PngToTga_Click);
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_Batch_PngToTga);
+            this.Controls.Add(this.button_Batch_TgaToPng);
             this.Controls.Add(this.checkBox_oldAlgorithm);
             this.Controls.Add(this.radioButton_type3);
             this.Controls.Add(this.numericUpDown_colorCount);
@@ -165,6 +183,8 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_colorCount;
         private System.Windows.Forms.RadioButton radioButton_type3;
         private System.Windows.Forms.CheckBox checkBox_oldAlgorithm;
+        private System.Windows.Forms.Button button_Batch_TgaToPng;
+        private System.Windows.Forms.Button button_Batch_PngToTga;
     }
 }
 

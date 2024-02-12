@@ -61,6 +61,24 @@ namespace ImageToZeppOS.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Image processing error.
+        /// </summary>
+        internal static string Img_Convert_Error_ReadErr {
+            get {
+                return ResourceManager.GetString("Img_Convert_Error_ReadErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Trying to save the image?.
+        /// </summary>
+        internal static string Img_Convert_Error_SaveImg {
+            get {
+                return ResourceManager.GetString("Img_Convert_Error_SaveImg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Error.
         /// </summary>
         internal static string Message_Error_Caption {
