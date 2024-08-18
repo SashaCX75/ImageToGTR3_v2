@@ -15,6 +15,21 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -43,19 +58,30 @@
       <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.17.0.1\lib\net40\Magick.NET-Q16-AnyCPU.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack.Core, Version=7.0.4.0, Culture=neutral, PublicKeyToken=8afb38e9204fc0a9, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net462\Microsoft.WindowsAPICodePack.Core.dll</HintPath>
+      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net472\Microsoft.WindowsAPICodePack.Core.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack.ExtendedLinguisticServices, Version=7.0.4.0, Culture=neutral, PublicKeyToken=8afb38e9204fc0a9, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net462\Microsoft.WindowsAPICodePack.ExtendedLinguisticServices.dll</HintPath>
+      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net472\Microsoft.WindowsAPICodePack.ExtendedLinguisticServices.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack.Sensors, Version=7.0.4.0, Culture=neutral, PublicKeyToken=8afb38e9204fc0a9, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net462\Microsoft.WindowsAPICodePack.Sensors.dll</HintPath>
+      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net472\Microsoft.WindowsAPICodePack.Sensors.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=7.0.4.0, Culture=neutral, PublicKeyToken=8afb38e9204fc0a9, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net462\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net472\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack.ShellExtensions, Version=7.0.4.0, Culture=neutral, PublicKeyToken=8afb38e9204fc0a9, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net462\Microsoft.WindowsAPICodePack.ShellExtensions.dll</HintPath>
+      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net472\Microsoft.WindowsAPICodePack.ShellExtensions.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -65,26 +91,13 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net462\System.Net.Http.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net462\System.Windows.Forms.dll</HintPath>
+      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net472\System.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -94,7 +107,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsFormsIntegration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net462\WindowsFormsIntegration.dll</HintPath>
+      <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net472\WindowsFormsIntegration.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -154,7 +167,19 @@
     <Content Include="3d-Image.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AmazFit_Editor_%28Watch_Face_Type_GT3%29 — копия\ZeppOS_Converter%28VB%29\ZeppOS_Converter%28VB%29.vbproj">
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AmazFit_Editor_%28Watch_Face_Type_GT3%29\ZeppOS_Converter%28VB%29\ZeppOS_Converter%28VB%29.vbproj">
       <Project>{cc433204-d5e8-4108-b389-b47a79b22dac}</Project>
       <Name>ZeppOS_Converter%28VB%29</Name>
     </ProjectReference>

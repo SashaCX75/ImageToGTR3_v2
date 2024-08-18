@@ -81,20 +81,30 @@ namespace ImageToZeppOS
                             fileStream.Read(_streamBuffer, 0, (int)fileStream.Length);
 
                             Header header = new Header(_streamBuffer, fileNameFull, targetFileName);
-                            if (header.GetExistsColorMap() == 1 && header.GetImageType() == 1) path = TgaToPng(fileNameFull, targetFileName, fix_color);
-                            if (header.GetExistsColorMap() == 0 && header.GetImageType() == 2) {
-                                if (header.GetBitsPerPixel() != 32 && fix_color == 1)
-                                {
-                                    ZeppOSConverter_VB myLibrary = new ZeppOSConverter_VB();
-                                    bool result = myLibrary.MyMethod(fileNameFull, targetFileName);
-                                    if (result) path = Path.GetDirectoryName(targetFileName);
-                                }
-                                else
-                                {
-                                    path = TgaARGBToPng(fileNameFull, targetFileName, fix_color); 
-                                }
+                            if (checkBox_externalConverter.Checked && fix_color == 1)
+                            {
+                                ZeppOSConverter_VB myLibrary = new ZeppOSConverter_VB();
+                                bool result = myLibrary.MyMethod(fileNameFull, targetFileName);
+                                if (result) path = Path.GetDirectoryName(targetFileName);
                             }
-                            if (header.GetExistsColorMap() == 1 && header.GetImageType() == 9) path = TgaToPng(fileNameFull, targetFileName, fix_color);
+                            else
+                            {
+                                if (header.GetExistsColorMap() == 1 && header.GetImageType() == 1) path = TgaToPng(fileNameFull, targetFileName, fix_color);
+                                if (header.GetExistsColorMap() == 0 && header.GetImageType() == 2)
+                                {
+                                    if (header.GetBitsPerPixel() != 32 && fix_color == 1)
+                                    {
+                                        ZeppOSConverter_VB myLibrary = new ZeppOSConverter_VB();
+                                        bool result = myLibrary.MyMethod(fileNameFull, targetFileName);
+                                        if (result) path = Path.GetDirectoryName(targetFileName);
+                                    }
+                                    else
+                                    {
+                                        path = TgaARGBToPng(fileNameFull, targetFileName, fix_color);
+                                    }
+                                }
+                                if (header.GetExistsColorMap() == 1 && header.GetImageType() == 9) path = TgaToPng(fileNameFull, targetFileName, fix_color); 
+                            }
                         }
                     }
                     catch (Exception exp)
@@ -114,9 +124,30 @@ namespace ImageToZeppOS
                             fileStream.Read(_streamBuffer, 0, (int)fileStream.Length);
 
                             Header header = new Header(_streamBuffer, Path.GetFileName(fileNameFull));
-                            if (header.GetExistsColorMap() == 1 && header.GetImageType() == 1) path = TgaToPng(fileNameFull, fileNameFull + "_temp", fix_color);
-                            if (header.GetExistsColorMap() == 0 && header.GetImageType() == 2) path = TgaARGBToPng(fileNameFull, fileNameFull + "_temp", fix_color);
-                            if (header.GetExistsColorMap() == 1 && header.GetImageType() == 9) path = TgaToPng(fileNameFull, fileNameFull + "_temp", fix_color);
+                            if (checkBox_externalConverter.Checked && fix_color == 1)
+                            {
+                                ZeppOSConverter_VB myLibrary = new ZeppOSConverter_VB();
+                                bool result = myLibrary.MyMethod(fileNameFull, fileNameFull + "_temp");
+                                if (result) path = Path.GetDirectoryName(fileNameFull + "_temp");
+                            }
+                            else
+                            {
+                                if (header.GetExistsColorMap() == 1 && header.GetImageType() == 1) path = TgaToPng(fileNameFull, fileNameFull + "_temp", fix_color);
+                                if (header.GetExistsColorMap() == 0 && header.GetImageType() == 2)
+                                {
+                                    if (header.GetBitsPerPixel() != 32 && fix_color == 1)
+                                    {
+                                        ZeppOSConverter_VB myLibrary = new ZeppOSConverter_VB();
+                                        bool result = myLibrary.MyMethod(fileNameFull, fileNameFull + "_temp");
+                                        if (result) path = Path.GetDirectoryName(fileNameFull + "_temp");
+                                    }
+                                    else
+                                    {
+                                        path = TgaARGBToPng(fileNameFull, fileNameFull + "_temp", fix_color);
+                                    }
+                                }
+                                if (header.GetExistsColorMap() == 1 && header.GetImageType() == 9) path = TgaToPng(fileNameFull, fileNameFull + "_temp", fix_color); 
+                            }
                         }
                         if (File.Exists(fileNameFull + "_temp"))
                         {

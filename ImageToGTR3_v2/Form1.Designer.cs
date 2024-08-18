@@ -40,6 +40,7 @@
             this.checkBox_newAlgorithm = new System.Windows.Forms.CheckBox();
             this.radioButton_type3 = new System.Windows.Forms.RadioButton();
             this.checkBox_oldAlgorithm = new System.Windows.Forms.CheckBox();
+            this.checkBox_externalConverter = new System.Windows.Forms.CheckBox();
             this.numericUpDown_colorCount = new System.Windows.Forms.NumericUpDown();
             this.button_Batch_TgaToPng = new System.Windows.Forms.Button();
             this.button_Batch_PngToTga = new System.Windows.Forms.Button();
@@ -50,11 +51,13 @@
             // 
             resources.ApplyResources(this.progressBar1, "progressBar1");
             this.progressBar1.Name = "progressBar1";
+            this.toolTip1.SetToolTip(this.progressBar1, resources.GetString("progressBar1.ToolTip"));
             // 
             // button_PngToTga
             // 
             resources.ApplyResources(this.button_PngToTga, "button_PngToTga");
             this.button_PngToTga.Name = "button_PngToTga";
+            this.toolTip1.SetToolTip(this.button_PngToTga, resources.GetString("button_PngToTga.ToolTip"));
             this.button_PngToTga.UseVisualStyleBackColor = true;
             this.button_PngToTga.Click += new System.EventHandler(this.button_PngToTga_Click);
             // 
@@ -62,6 +65,7 @@
             // 
             resources.ApplyResources(this.button_TgaToPng, "button_TgaToPng");
             this.button_TgaToPng.Name = "button_TgaToPng";
+            this.toolTip1.SetToolTip(this.button_TgaToPng, resources.GetString("button_TgaToPng.ToolTip"));
             this.button_TgaToPng.UseVisualStyleBackColor = true;
             this.button_TgaToPng.Click += new System.EventHandler(this.button_TgaToPng_Click);
             // 
@@ -69,6 +73,7 @@
             // 
             resources.ApplyResources(this.label_version, "label_version");
             this.label_version.Name = "label_version";
+            this.toolTip1.SetToolTip(this.label_version, resources.GetString("label_version.ToolTip"));
             // 
             // toolTip1
             // 
@@ -115,6 +120,13 @@
             this.checkBox_oldAlgorithm.UseVisualStyleBackColor = true;
             this.checkBox_oldAlgorithm.CheckedChanged += new System.EventHandler(this.checkBox_Algorithm_CheckedChanged);
             // 
+            // checkBox_externalConverter
+            // 
+            resources.ApplyResources(this.checkBox_externalConverter, "checkBox_externalConverter");
+            this.checkBox_externalConverter.Name = "checkBox_externalConverter";
+            this.toolTip1.SetToolTip(this.checkBox_externalConverter, resources.GetString("checkBox_externalConverter.ToolTip"));
+            this.checkBox_externalConverter.UseVisualStyleBackColor = true;
+            // 
             // numericUpDown_colorCount
             // 
             resources.ApplyResources(this.numericUpDown_colorCount, "numericUpDown_colorCount");
@@ -124,6 +136,7 @@
             0,
             0});
             this.numericUpDown_colorCount.Name = "numericUpDown_colorCount";
+            this.toolTip1.SetToolTip(this.numericUpDown_colorCount, resources.GetString("numericUpDown_colorCount.ToolTip"));
             this.numericUpDown_colorCount.Value = new decimal(new int[] {
             256,
             0,
@@ -134,6 +147,7 @@
             // 
             resources.ApplyResources(this.button_Batch_TgaToPng, "button_Batch_TgaToPng");
             this.button_Batch_TgaToPng.Name = "button_Batch_TgaToPng";
+            this.toolTip1.SetToolTip(this.button_Batch_TgaToPng, resources.GetString("button_Batch_TgaToPng.ToolTip"));
             this.button_Batch_TgaToPng.UseVisualStyleBackColor = true;
             this.button_Batch_TgaToPng.Click += new System.EventHandler(this.button_Batch_TgaToPng_Click);
             // 
@@ -141,6 +155,7 @@
             // 
             resources.ApplyResources(this.button_Batch_PngToTga, "button_Batch_PngToTga");
             this.button_Batch_PngToTga.Name = "button_Batch_PngToTga";
+            this.toolTip1.SetToolTip(this.button_Batch_PngToTga, resources.GetString("button_Batch_PngToTga.ToolTip"));
             this.button_Batch_PngToTga.UseVisualStyleBackColor = true;
             this.button_Batch_PngToTga.Click += new System.EventHandler(this.button_Batch_PngToTga_Click);
             // 
@@ -148,6 +163,7 @@
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.checkBox_externalConverter);
             this.Controls.Add(this.button_Batch_PngToTga);
             this.Controls.Add(this.button_Batch_TgaToPng);
             this.Controls.Add(this.checkBox_oldAlgorithm);
@@ -164,6 +180,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
+            this.toolTip1.SetToolTip(this, resources.GetString("$this.ToolTip"));
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_colorCount)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -185,6 +202,7 @@
         private System.Windows.Forms.CheckBox checkBox_oldAlgorithm;
         private System.Windows.Forms.Button button_Batch_TgaToPng;
         private System.Windows.Forms.Button button_Batch_PngToTga;
+        private System.Windows.Forms.CheckBox checkBox_externalConverter;
     }
 }
 
